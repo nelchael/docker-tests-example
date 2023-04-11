@@ -1,0 +1,48 @@
+[tool.poetry]
+package-mode = false
+authors = ["Krzysztof Pawlik <krzysiek.pawlik@people.pl>"]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pytest = "8.2.2"
+python-slugify = "8.0.4"
+selenium = "4.22.0"
+
+[tool.poetry.group.dev.dependencies]
+black = "24.4.2"
+isort = "5.13.2"
+mypy = "1.10.1"
+poethepoet = "0.27.0"
+ruff = "0.5.1"
+types-python-slugify = "8.0.2.20240310"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 120
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+select = ["F", "E", "N", "A", "C4", "ISC", "PT", "Q", "RET", "SLF", "ARG", "PTH", "RUF"]
+
+[tool.ruff.lint.flake8-quotes]
+inline-quotes = "double"
+
+[tool.isort]
+line_length = 120
+profile = "black"
+
+[tool.pytest.ini_options]
+minversion = "7.3"
+addopts = "-v"
+
+[tool.poe.tasks]
+_format = [ { shell = "isort . && black ." } ]
+_check = [ { shell = "isort --check . && black --check ." } ]
+_lint = [ { shell = "ruff check . && mypy ." } ]
+format = [ "_format", "_lint" ]
+check = [ "_check", "_lint" ]
