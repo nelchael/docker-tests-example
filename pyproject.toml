@@ -1,0 +1,55 @@
+[project]
+name = "docker-tests-example"
+authors = [
+    {name = "Krzysztof Pawlik", email = "<krzysiek.pawlik@people.pl>"},
+]
+requires-python = ">=3.9"
+dynamic = ["dependencies", "version"]
+
+[tool.poetry]
+package-mode = false
+
+[tool.poetry.dependencies]
+pytest = "8.3.5"
+python-slugify = "8.0.4"
+selenium = "4.30.0"
+humanize = "4.12.1"
+
+[tool.poetry.group.dev.dependencies]
+black = "25.1.0"
+isort = "6.0.1"
+mypy = "1.15.0"
+poethepoet = "0.33.1"
+ruff = "0.11.2"
+types-python-slugify = "8.0.2.20240310"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 120
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+select = ["F", "E", "N", "A", "C4", "ISC", "PT", "Q", "RET", "SLF", "ARG", "PTH", "RUF"]
+
+[tool.ruff.lint.flake8-quotes]
+inline-quotes = "double"
+
+[tool.isort]
+line_length = 120
+profile = "black"
+
+[tool.pytest.ini_options]
+minversion = "7.3"
+addopts = "-v"
+
+[tool.poe.tasks]
+_format = [ { shell = "isort . && black ." } ]
+_check = [ { shell = "isort --check . && black --check ." } ]
+_lint = [ { shell = "ruff check . && mypy ." } ]
+format = [ "_format", "_lint" ]
+check = [ "_check", "_lint" ]
